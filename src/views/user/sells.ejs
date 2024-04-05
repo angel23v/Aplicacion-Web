@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* Estilo para hacer el contenedor de comandas desplazable */
+      #comandasContainer {
+        max-height: 400px; /* Ajusta el valor según sea necesario */
+        overflow-y: auto;
+      }
+    </style>
+    <%- include("../partials/header") %>
+  </head>
+  <body>
+    <%- include("../partials/nav") %>
+    <div class="container">
+      <h1 class="mt-5 mb-4">Comandas de Ventas</h1>
+
+      <!-- Formulario para crear una nueva comanda -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <form id="nuevaComandaForm">
+            <div class="mb-3">
+              <label for="nombreComanda" class="form-label"
+                >Nombre de la Comanda</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="nombreComanda"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">
+              Crear Nueva Comanda
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Sección para mostrar las comandas existentes -->
+      <div id="comandasContainer">
+        <!-- Aquí se mostrarán las comandas dinámicamente -->
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <% include("../partials/footer") %>
+
+    <!-- Scripts JS -->
+    <script>
+      const nuevaComandaForm = document.getElementById("nuevaComandaForm");
+      const comandasContainer = document.getElementById("comandasContainer");
+
+      nuevaComandaForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const nombreComanda = document.getElementById("nombreComanda").value;
+
+        // Crear una nueva sección para la comanda
+        crearComandaSection(nombreComanda);
+
+        // Limpiar el formulario después de crear la comanda
+        nuevaComandaForm.reset();
+      });
+
+      function crearComandaSection(nombreComanda) {
+        const comandaSection = document.createElement("div");
+        comandaSection.classList.add("row", "mb-4");
+        comandaSection.innerHTML = `
+          <div class="col-md-12">
+            <h2>Comanda: ${nombreComanda}</h2>
+            <form class="comandaForm">
+              <div class="mb-3">
+                <label for="producto" class="form-label">Producto</label>
+                <input type="text" class="form-control" required />
+              </div>
+              <div class="mb-3">
+                <label for="precio" class="form-label">Precio</label>
+                <input type="number" class="form-control" required />
+              </div>
+              <button type="submit" class="btn btn-primary">Agregar a la Comanda</button>
+            </form>
+            <table class="table table-striped mt-3">
+              <thead>
+                <tr>
+                  <th scope="col">Producto</th>
+                  <th scope="col">Precio</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody class="comandaTableBody">
+                <!-- Aquí se mostrarán los elementos de la comanda dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        `;
+        comandasContainer.appendChild(comandaSection);
+
+        // Agregar evento de submit a la comandaForm recién creada
+        const comandaForm = comandaSection.querySelector(".comandaForm");
+        comandaForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          const producto =
+            comandaForm.querySelector('input[type="text"]').value;
+          const precio = comandaForm.querySelector(
+            'input[type="number"]'
+          ).value;
+
+          // Agregar el elemento a la tabla de la comanda
+          agregarElementoComanda(comandaSection, producto, precio);
+
+          // Limpiar el formulario después de agregar el elemento
+          comandaForm.reset();
+        });
+      }
+
+      function agregarElementoComanda(comandaSection, producto, precio) {
+        const comandaTableBody =
+          comandaSection.querySelector(".comandaTableBody");
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${producto}</td>
+          <td>${precio}</td>
+          <td>
+            <button type="button" class="btn btn-sm btn-primary editarElemento">Editar</button>
+            <button type="button" class="btn btn-sm btn-danger eliminarElemento">Eliminar</button>
+          </td>
+        `;
+        comandaTableBody.appendChild(row);
+
+        // Agregar eventos a los botones de editar y eliminar
+        const editarBtn = row.querySelector(".editarElemento");
+        const eliminarBtn = row.querySelector(".eliminarElemento");
+
+        editarBtn.addEventListener("click", () => {
+          // Aquí puedes implementar la lógica para editar el elemento de la comanda
+          console.log("Editar elemento:", producto, precio);
+        });
+
+        eliminarBtn.addEventListener("click", () => {
+          // Aquí puedes implementar la lógica para eliminar el elemento de la comanda
+          row.remove();
+        });
+      }
+    </script>
+    <%- include("../partials/footer") %>
+  </body>
+</html>

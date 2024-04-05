@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <%- include("../partials/header") %>
+  </head>
+  <body>
+    <%- include("../partials/nav") %>
+    <div class="container">
+      <h1 class="mt-5 mb-4">Registro de Proveedores y Productos</h1>
+      <!-- Formulario para registrar proveedores y productos -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <form id="proveedorForm">
+            <div class="mb-3">
+              <label for="nombreProveedor" class="form-label"
+                >Nombre del Proveedor</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="nombreProveedor"
+                required
+              />
+            </div>
+            <!-- Otros campos del formulario -->
+
+            <div class="mb-3">
+              <label for="cantidadProductos" class="form-label"
+                >Cantidad de Productos</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="cantidadProductos"
+                required
+              />
+            </div>
+
+            <!-- Sección para agregar productos -->
+            <div id="productosSection"></div>
+
+            <button type="submit" class="btn btn-primary mt-3 add">
+              Registrar Proveedor y Productos
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Tabla para mostrar los proveedores -->
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Lista de Proveedores</h2>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Correo Electrónico</th>
+                <th scope="col">Productos</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="proveedoresTableBody">
+              <!-- Aquí se mostrarán los proveedores dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <%- include("../partials/footer") %>
+    <script src="/proveedores.js"></script>
+
+    <!-- Coloca el código JavaScript al final del cuerpo del HTML -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const cantidadProductosInput =
+          document.getElementById("cantidadProductos");
+        const productosSection = document.getElementById("productosSection");
+        let add_button = document.querySelector(".add");
+
+        add_button.addEventListener("click", (e) => {
+          e.preventDefault();
+          const cantidad = parseInt(cantidadProductosInput.value);
+
+          // Limpiar sección de productos antes de agregar nuevos campos
+          productosSection.innerHTML = "";
+
+          for (let i = 0; i < cantidad; i++) {
+            const productoDiv = document.createElement("div");
+            productoDiv.classList.add("producto");
+
+            productoDiv.innerHTML = `
+                  <div class="mb-3">
+                    <label for="nombreProducto${i}" class="form-label">Nombre del Producto</label>
+                    <input type="text" class="form-control nombreProducto" id="nombreProducto${i}" required />
+                  </div>
+                  <div class="mb-3">
+                    <label for="precioProducto${i}" class="form-label">Precio</label>
+                    <input type="number" class="form-control precioProducto" id="precioProducto${i}" required />
+                  </div>
+                  <div class="mb-3">
+                    <label for="cantidadProducto${i}" class="form-label">Cantidad</label>
+                    <input type="number" class="form-control cantidadProducto" id="cantidadProducto${i}" required />
+                  </div>
+                `;
+            productosSection.appendChild(productoDiv);
+          }
+        });
+      });
+    </script>
+    <%- include("../partials/footer") %>
+    <!-- <script src="/proveedores.js"></script> -->
+  </body>
+</html>

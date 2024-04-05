@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <%- include("../partials/header") %>
+  </head>
+  <body>
+    <%- include("../partials/nav") %>
+    <div class="container mt-4">
+        <h1>Reporte de Inventario</h1>
+    
+        <div class="row mt-4">
+          <!-- Columna del formulario de filtrado -->
+          <div class="col-md-4">
+            <form id="filtroForm">
+              <div class="form-group">
+                <label for="precioFiltro">Filtrar por Precio (mayor o igual a):</label>
+                <input type="number" class="form-control" id="precioFiltro" placeholder="Ingrese el precio">
+              </div>
+              <div class="form-group">
+                <label for="proveedorFiltro">Filtrar por Proveedor:</label>
+                <select class="form-control" id="proveedorFiltro">
+                  <option value="">Seleccionar Proveedor</option>
+                  <option value="Proveedor A">Proveedor A</option>
+                  <option value="Proveedor B">Proveedor B</option>
+                  <option value="Proveedor C">Proveedor C</option>
+                </select>
+              </div>
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="mostrarTodos">
+                <label class="form-check-label" for="mostrarTodos">Mostrar Todos los Productos</label>
+              </div>
+              <button type="submit" class="btn btn-primary">Generar Reporte</button>
+            </form>
+          </div>
+          
+          <!-- Columna de la tabla de inventario y el resultado del reporte -->
+          <div class="col-md-8">
+            <!-- Tabla de inventario -->
+            <h2 class="mb-4">Inventario Completo</h2>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Precio</th>
+                  <th>Stock</th>
+                  <th>Proveedor</th>
+                </tr>
+              </thead>
+              <tbody id="inventarioTableBody">
+                <!-- Aquí se mostrará el inventario completo dinámicamente -->
+              </tbody>
+            </table>
+    
+            <!-- Resultado del reporte -->
+            <div id="resultadoReporte">
+              <!-- Aquí se mostrarán los resultados del reporte -->
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Scripts JS -->
+      <script>
+        // Supongamos que tienes una lista de productos en JavaScript
+        const productos = [
+          { id: 1, nombre: 'Producto 1', precio: 10, stock: 50, proveedor: 'Proveedor A' },
+          { id: 2, nombre: 'Producto 2', precio: 15, stock: 30, proveedor: 'Proveedor B' },
+          { id: 3, nombre: 'Producto 3', precio: 20, stock: 20, proveedor: 'Proveedor C' },
+          { id: 4, nombre: 'Producto 4', precio: 25, stock: 10, proveedor: 'Proveedor A' },
+          { id: 5, nombre: 'Producto 5', precio: 30, stock: 5, proveedor: 'Proveedor B' },
+        ];
+    
+        const inventarioTableBody = document.getElementById('inventarioTableBody');
+        const filtroForm = document.getElementById('filtroForm');
+        const resultadoReporte = document.getElementById('resultadoReporte');
+    
+        // Función para mostrar los productos en la tabla de inventario
+        function mostrarInventario() {
+          let html = '';
+    
+          productos.forEach((producto) => {
+            html += `<tr><td>${producto.id}</td><td>${producto.nombre}</td><td>$${producto.precio}</td><td>${producto.stock}</td><td>${producto.proveedor}</td></tr>`;
+          });
+    
+          inventarioTableBody.innerHTML = html;
+        }
+    
+        // Función para generar el reporte según los filtros seleccionados
+        function generarReporte(event) {
+          event.preventDefault();
+    
+          const precioFiltro = document.getElementById('precioFiltro').value;
+          const proveedorFiltro = document.getElementById('proveedorFiltro').value;
+          const mostrarTodos = document.getElementById('mostrarTodos').checked;
+    
+          let productosFiltrados = [];
+    
+          if (mostrarTodos) {
+            productosFiltrados = productos;
+          } else {
+            productosFiltrados = productos.filter((producto) => {
+              if (precioFiltro && parseInt(producto.precio) < parseInt(precioFiltro)) {
+                return false;
+              }
+              if (proveedorFiltro && producto.proveedor !== proveedorFiltro) {
+                return false;
+              }
+              return true;
+            });
+          }
+    
+          mostrarResultados(productosFiltrados);
+        }
+    
+        // Función para mostrar los resultados del reporte en una tabla
+        function mostrarResultados(productosFiltrados) {
+          let html = '<table class="table table-striped mt-4">';
+          html += '<thead><tr><th>ID</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>Proveedor</th></tr></thead>';
+          html += '<tbody>';
+    
+          productosFiltrados.forEach((producto) => {
+            html += `<tr><td>${producto.id}</td><td>${producto.nombre}</td><td>$${producto.precio}</td><td>${producto.stock}</td><td>${producto.proveedor}</td></tr>`;
+          });
+    
+          html += '</tbody></table>';
+    
+          resultadoReporte.innerHTML = html;
+        }
+    
+        // Asociar evento submit al formulario de filtrado
+        filtroForm.addEventListener('submit', generarReporte);
+    
+        // Mostrar el inventario completo al cargar la página
+        mostrarInventario();
+      </script>
+</html>

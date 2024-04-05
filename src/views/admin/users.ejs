@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <%- include("../partials/header") %>
+  </head>
+  <body>
+    <%- include("../partials/nav") %>
+    <div class="container">
+      <h1 class="mt-5 mb-4">Gestión de Usuarios</h1>
+      <!-- Formulario para registrar usuarios -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <form id="usuarioForm">
+            <div class="mb-3">
+              <label for="nombreUsuario" class="form-label"
+                >Nombre de Usuario</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="nombreUsuario"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="emailUsuario" class="form-label"
+                >Correo Electrónico</label
+              >
+              <input
+                type="email"
+                class="form-control"
+                id="emailUsuario"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="passwordUsuario" class="form-label">Contraseña</label>
+              <input
+                type="password"
+                class="form-control"
+                id="passwordUsuario"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">
+              Registrar Usuario
+            </button>
+          </form>
+        </div>
+      </div>
+      <!-- Tabla para mostrar los usuarios -->
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Lista de Usuarios</h2>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo Electrónico</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="usuariosTableBody">
+              <!-- Aquí se mostrarán los usuarios dinámicamente -->
+              <tr>
+                <td>usuario.nombre</td>
+                <td>usuario.correo</td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-primary editarUsuario"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-danger eliminarUsuario"
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <%- include("../partials/footer") %>
+  </body>
+</html>
