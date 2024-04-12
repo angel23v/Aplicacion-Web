@@ -6,13 +6,12 @@
           <h4>Iniciar sesión</h4>
         </div>
         <div class="card-body">
-          <form>
+          <form class="form_login">
             <div class="form-group">
               <label for="usuario">Usuario:</label>
               <input
                 type="text"
-                class="form-control"
-                id="usuario"
+                class="form-control usuario"
                 placeholder="Ingresa tu usuario"
               />
             </div>
@@ -20,8 +19,7 @@
               <label for="contrasena">Contraseña:</label>
               <input
                 type="password"
-                class="form-control"
-                id="contrasena"
+                class="form-control contrasena"
                 placeholder="Ingresa tu contraseña"
               />
             </div>
@@ -34,3 +32,15 @@
     </div>
   </div>
 </div>
+<script>
+  let form = document.querySelector(".form_login");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    console.log("ENVIADO");
+
+    let user = document.querySelector(".usuario").value;
+
+    user != "admin" ? (location.href = "/user") : (location.href = "/admin");
+  });
+</script>
