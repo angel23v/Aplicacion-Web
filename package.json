@@ -1,7 +1,7 @@
 {
   "name": "aplicacion-web",
   "version": "1.0.0",
-  "description": "",
+  "description": "![Aplicacion para la gestion y analisis de un negocio de comida](imgs/interfaces/admin/admin_gnrl.png)",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -10,14 +10,19 @@
   "author": "Angel Vazquez",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "bootstrap": "^5.3.3",
+    "cors": "^2.8.5",
+    "docker": "^0.2.14",
     "ejs": "^3.1.9",
     "express": "^4.19.2",
     "morgan": "^1.10.0",
     "mssql": "^10.0.2",
+    "mysql": "^2.18.1",
     "pg": "^8.11.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
-  }
+  },
+  "keywords": []
 }

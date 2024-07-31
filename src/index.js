@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import indexRoutes from "./routes/index.js";
 import adminRoutes from "./routes/admin.js";
 import userRoutes from "./routes/user.js";
+import db from "./db/index.js";
 
 const app = express();
 
@@ -12,6 +13,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 app.set("views", join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+app.use(db);
 app.use(express.static("public"));
 app.use(indexRoutes);
 app.use(adminRoutes);

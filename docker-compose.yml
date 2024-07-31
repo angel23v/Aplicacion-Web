@@ -1,0 +1,21 @@
+version: "3"
+services:
+  sql1:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=<YourStrong@Passw0rd>
+    ports:
+      - "1433:1433"
+    hostname: sql1
+
+  sql2:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=<YourStrong@Passw0rd>
+    ports:
+      - "1401:1433"
+    hostname: sql2

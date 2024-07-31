@@ -90,4 +90,29 @@
     </div>
     <%- include("../partials/footer") %>
   </body>
+  <script>
+    document
+      .getElementById("usuarioForm")
+      .addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const nombre = document.getElementById("nombreUsuario").value;
+        const email = document.getElementById("emailUsuario").value;
+        const password = document.getElementById("passwordUsuario").value;
+
+        fetch("http://localhost:3000/api/usuarios", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ nombre, email, password }),
+        })
+          .then((response) => response.text())
+          .then((data) => {
+            alert(data);
+            // Aquí podrías añadir lógica para actualizar la lista de usuarios en el frontend
+          })
+          .catch((error) => console.error("Error:", error));
+      });
+  </script>
 </html>
